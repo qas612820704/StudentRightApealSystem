@@ -5,3 +5,5 @@ from django.views import generic
 
 class IndexView(generic.TemplateView):
         template_name = 'mainapp/index.html'
+class AddView(generic.TemplateView):
+        template_name = 'mainapp/add.html'

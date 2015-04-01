@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+ 	<head>
+ 		<title>{% block title %} IPSVR {% endblock %}</title>
+		{% block style %}
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.2.0/semantic.min.css">
+		{% endblock %}
+		{% block js-head %}
+		{% endblock %}
+ 	</head>
+ 	<body>
+		<!--
+ 		{# include "InventoryPageSaver/menu.html" #}
+		-->
+ 		{% block context %}
+ 		<h1>Hello</h1>
+ 		{% endblock %}
+		{% block js-end %}
+		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.2.0/semantic.min.js"></script>	
+		{% endblock %}
+ 	</body>
+</html>
