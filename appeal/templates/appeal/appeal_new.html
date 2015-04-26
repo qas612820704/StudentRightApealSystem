@@ -1,0 +1,34 @@
+{# 4/1 edit by k #}
+{# This the page of submit, Please use it to write submit.html #}
+{# 4/13 edit by lego #}
+{# rewrite code more beautiful #}
+{% extends "base/base.html" %}
+{% block body %}
+
+<div class="ui two column centered grid">
+	<div class="column">	
+		
+		<form class="ui form" action="{% url 'appeal:newSubmit' %}" method="post" role="form">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit">
+		</form>
+		<!--
+		<form class="ui form" action="{% url 'appeal:newSubmit' %}">
+			<div class="field">
+				<label>title</label>
+				<input name="title" placeholder="title" type="text" />
+				<label>context</label>
+				<textarea rows="4" cols="50"></textarea>
+				<div class="ui toggle checkbox">
+					<input name="public" type="radio" />
+					<label>Allow <b>anyone</b> to see my post</label>
+				</div>
+			</div>
+			<input type="submit" />
+		</form>
+		-->
+    </div>
+</div>
+
+{% endblock %}
