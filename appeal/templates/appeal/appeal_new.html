@@ -1,8 +1,11 @@
-{# 4/1 edit by k #}
-{# This the page of submit, Please use it to write submit.html #}
 {# 4/13 edit by lego #}
 {# rewrite code more beautiful #}
-{% extends "base/base.html" %}
+{# 4/1 edit by k #}
+{# This the page of submit, Please use it to write submit.html #}
+
+{% extends "appeal/base.html" %}
+{% block title %} Appeal | {{ block.super }} {% endblock %}
+
 {% block body %}
 
 <div class="ui two column centered grid">
@@ -10,7 +13,7 @@
 		
 		<form class="ui form" action="{% url 'appeal:newSubmit' %}" method="post" role="form">
 			{% csrf_token %}
-			{{ form.as_p }}
+			{{ form }}
 			<input type="submit">
 		</form>
 		<!--

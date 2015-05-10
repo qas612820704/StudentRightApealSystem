@@ -1,0 +1,39 @@
+{# 5/3 edit by lego#}
+{# new file #}
+
+{% extends "appeal/base.html" %}
+
+{% block body %}
+<h1>{{ appeal.title }} : </h1>
+<h2>context : </h2>
+<div>{{ appeal.context }}</div>
+<h2> postUser_id  : </h2>
+<div>{{ appeal.postUser_id }}</div>
+<h2>department : </h2>
+<div>{{ appeal.department }}</div>
+<h2>grade :</h2>
+<div>{{ appeal.grade }}</div>
+<h2>process_status :</h2>
+<div>{{ appeal.process_status }}</div>
+<h2>pub_date :</h2>
+<div>{{ appeal.pub_date }}</div>
+<h2>is_public :</h2>
+<div>{{ appeal.is_public }}</div>
+<h2>is_delete :</h2>
+<div>{{ appeal.is_delete }}</div>
+
+<h1>Reply : </h1>
+{% for reply in appeal.apeal_reply.all %}
+<div>
+  <p>
+    <b>Message '{{ reply.pk }}'</b>=>
+    {{ reply.postUser_name }} : {{ reply.context }}</p>
+</div>
+{% endfor %}
+<h1>----------------------</h1>
+<form class="ui form" action="{% url 'appeal:replySubmit' appeal.pk %}" method="post" role="form">
+  {% csrf_token %}
+  {{ reply_form }}
+  <input type="submit">
+</form>
+{% endblock %}

@@ -8,8 +8,8 @@ urlpatterns = patterns(
     # 4/14 edit by lego
     # Will be done future
     #
-    #url(r'^$', views.appealIndex, name='index'),
     #url(r'^update/$'), views.appealUpdate, name='update'),
-    #url(r'^(?P<pk>\d+)/$', views.appealDetail, name='detail'),
-
+    url(r'^(?P<pk>\d+)/$', views.appealDetail, name='detail'),
+    url(r'^$', views.appealList, name='list'),
+   	url(r'^(?P<pk>\d+)/reply/submit/$', views.replyNew, name='replySubmit'),
 )

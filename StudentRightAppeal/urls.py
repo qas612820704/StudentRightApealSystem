@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+
 from pages import views 
 
 # 4/14 edit by lego
@@ -12,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='home'),
     url(r'^appeal/', include('appeal.urls', namespace='appeal')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^ilt_client/', include('ilt_client.urls', namespace='ilt_client')),
 )

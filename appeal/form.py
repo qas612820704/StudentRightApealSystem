@@ -5,4 +5,7 @@ from django import forms
 class AppealForm(forms.Form):
     title = forms.CharField(max_length=50)
     context = forms.CharField(widget=forms.Textarea)
-    public = forms.BooleanField(required=False)
+    is_public = forms.BooleanField(required=False)
+
+class ReplyForm(forms.Form):
+	context = forms.CharField()

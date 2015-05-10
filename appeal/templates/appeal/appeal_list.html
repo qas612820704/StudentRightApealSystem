@@ -1,0 +1,19 @@
+{# 5/3 edit by lego #}
+{# new file #}
+
+{% extends "appeal/base.html" %}
+
+{% block body %}
+<div class="ui stackable four column grid">
+  {% for appeal in appeals %}
+  <div class="column">
+    <a href="{{ appeal.get_absolute_url }}">
+      {{ appeal.title }}
+    </a>
+    <p>
+      {{ appeal.context }}
+    </p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
