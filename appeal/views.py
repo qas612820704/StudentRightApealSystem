@@ -2,8 +2,8 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from .form import AppealForm, ReplyForm
 from .models import Appeal, Reply
-# Create your views here.
 
+# Create your views here.
 appeal_identity = {
     'postUser_id' : 'Lego123',
     'name' : 'LegoChiang',
@@ -13,6 +13,7 @@ appeal_identity = {
 
 def appealNew(request):
     form = AppealForm()
+    
     return render(request, 'appeal/appeal_new.html',
                   {'form': form})
 
