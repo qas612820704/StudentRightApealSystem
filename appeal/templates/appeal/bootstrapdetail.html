@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% extends "appeal/base.html" %}
+{% block body %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detail</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+
+  <div class="bs-example bs-example-type" data-example-id="small-headings">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td><h1> {{ appeal.title }} </h1></td>
+        </tr>
+        
+        <tr>
+          <td><h4><p>發文者 : </p>{{ appeal.department }} {{ appeal.grade }} {{ appeal.postUser_id }}</h2></td>
+        </tr>
+        
+         <tr>
+          <td><h4><p>發文時間 : </p>{{ appeal.pub_date }}</h2></td>
+        </tr>
+        
+        
+        <tr>
+          <td><h2> {{ appeal.contest }} </h2></td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </body>
+
+{% endblock %}

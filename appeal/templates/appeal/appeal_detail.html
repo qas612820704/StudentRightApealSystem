@@ -1,46 +1,39 @@
-<!DOCTYPE html>
+{# 5/3 edit by lego#}
+{# new file #}
+
 {% extends "appeal/base.html" %}
+
 {% block body %}
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detail</title>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
+<h1>{{ appeal.title }} : </h1>
+<h2>context : </h2>
+<div>{{ appeal.context }}</div>
+<h2> postUser_id  : </h2>
+<div>{{ appeal.postUser_id }}</div>
+<h2>department : </h2>
+<div>{{ appeal.department }}</div>
+<h2>grade :</h2>
+<div>{{ appeal.grade }}</div>
+<h2>process_status :</h2>
+<div>{{ appeal.process_status }}</div>
+<h2>pub_date :</h2>
+<div>{{ appeal.pub_date }}</div>
+<h2>is_public :</h2>
+<div>{{ appeal.is_public }}</div>
+<h2>is_delete :</h2>
+<div>{{ appeal.is_delete }}</div>
 
-
-  <div class="bs-example bs-example-type" data-example-id="small-headings">
-    <table class="table">
-      <tbody>
-        <tr>
-          <td><h1> {{ appeal.title }} </h1></td>
-        </tr>
-        
-        <tr>
-          <td><h4><p>發文者 : </p>{{ appeal.department }} {{ appeal.grade }} {{ appeal.postUser_id }}</h2></td>
-        </tr>
-        
-         <tr>
-          <td><h4><p>發文時間 : </p>{{ appeal.pub_date }}</h2></td>
-        </tr>
-        
-        
-        <tr>
-          <td><h2> {{ appeal.contest }} </h2></td>
-        </tr>
-        
-      </tbody>
-    </table>
-  </div>
-  
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  </body>
-
+<h1>Reply : </h1>
+{% for reply in appeal.apeal_reply.all %}
+<div>
+  <p>
+    <b>Message '{{ reply.pk }}'</b>=>
+    {{ reply.postUser_name }} : {{ reply.context }}</p>
+</div>
+{% endfor %}
+<h1>----------------------</h1>
+<form class="ui form" action="{% url 'appeal:replySubmit' appeal.pk %}" method="post" role="form">
+  {% csrf_token %}
+  {{ reply_form }}
+  <input type="submit">
+</form>
 {% endblock %}
