@@ -12,23 +12,17 @@
  	<body>
   
   <div class="ui inverted menu">
-  <a class="active item" href="http://www.google.com/">
-    <i class="home icon"></i> Home
+  <a class="active item" href="{% url 'home' %}">
+    <i class="home icon"></i> 首頁
+  </a>
+  <a class="item" href="{% url 'appeal:new' %}">
+    <i class="mail icon"></i> 發文
+  </a>
+    <a class="item" href="{% url 'appeal:list' %}">
+    <i class="user icon"></i> 文章列表
   </a>
   <a class="item">
-    <i class="mail icon"></i> POST
-  </a>
-  <a class="item">
-    <i class="trophy icon"></i> Detail
-  </a>
-    <a class="item">
-    <i class="user icon"></i> View
-  </a>
-    <a class="item">
-    <i class="chat icon"></i> Reply
-  </a> 
-  <a class="item">
-    <i class="settings icon"></i>Log out
+    <i class="settings icon"></i>登出
   </a>
 </div>
 
