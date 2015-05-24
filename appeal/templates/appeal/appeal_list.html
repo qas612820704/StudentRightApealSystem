@@ -1,19 +1,50 @@
-{# 5/3 edit by lego #}
-{# new file #}
-
+<!DOCTYPE html>
 {% extends "appeal/base.html" %}
-
 {% block body %}
-<div class="ui stackable four column grid">
-  {% for appeal in appeals %}
-  <div class="column">
-    <a href="{{ appeal.get_absolute_url }}">
-      {{ appeal.title }}
-    </a>
-    <p>
-      {{ appeal.context }}
-    </p>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>List</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div class="bs-example" data-example-id="striped-table">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>標題</th>
+          <th>作者</th>
+          <th>發文時間</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+         {% for appeal in appeals %}
+          <tr>
+            <th scope="row">{{ appeal.pk }}</th>
+            <td href="{{ appeal.get_absolute_url }}">
+            {{ appeal.title }}
+            </td>
+            <td>{{ appeal.postUser_name }}</td>
+            <td>{{ appeal.pub_date }}</td>
+          </tr>
+		{% endfor %}
+      </tbody>
+      
+    </table>
   </div>
-  {% endfor %}
-</div>
+  
+    
+</table>
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </body>
+
 {% endblock %}
