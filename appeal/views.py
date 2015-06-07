@@ -37,11 +37,12 @@ def appealNewSubmit(request):
                   {'form': form})
 
 def appealList(request):
+    process_status_SemanticUI_style = [('P', 'inverted blue comment icon'), ('D', 'inverted green comment icon'), ('N', 'inverted red comment icon')]
     try:
         appeals = Appeal.objects.all()
     except:
         pass
-    return render(request, 'appeal/appeal_list.html', {'appeals' : appeals})
+    return render(request, 'appeal/appeal_list.html', {'appeals' : appeals, 'status_style' : process_status_SemanticUI_style})
 
 def appealDetail(request, pk):
     try:
