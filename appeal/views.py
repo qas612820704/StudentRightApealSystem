@@ -25,6 +25,7 @@ def appealNewSubmit(request):
                 appeal_info = form.cleaned_data
                 appeal = Appeal(**appeal_info)
                 appeal.postUser_id = appeal_identity['postUser_id']
+                appeal.postUser_name = appeal_identity['name']
                 appeal.department = appeal_identity['department']
                 appeal.grade = appeal_identity['grade']
             except Exception as e:
