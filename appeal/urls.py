@@ -11,5 +11,6 @@ urlpatterns = patterns(
     #url(r'^update/$'), views.appealUpdate, name='update'),
     url(r'^(?P<pk>\d+)/$', views.appealDetail, name='detail'),
     url(r'^$', views.appealList, name='list'),
-   	url(r'^(?P<pk>\d+)/reply/submit/$', views.replyNew, name='replySubmit'),
+    url(r'^(?P<pk>\d+)/reply/submit/$', views.replyNew, name='replySubmit'),
+
 )

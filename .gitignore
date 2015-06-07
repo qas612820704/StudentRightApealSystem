@@ -7,3 +7,5 @@ __pycache__/*
 
 # kai7
 appeal/templates/appeal/appeal_list_test.html
+# lego
+mytest/*
