@@ -39,7 +39,7 @@ class Appeal(models.Model):
     
     is_public = models.BooleanField(default=True)
 
-    is_delete = models.DateTimeField(null=True,blank=True)
+    is_delete = models.DateTimeField(null=True, blank=True)
     # visible/nonvisible to the front-end
     
     def get_absolute_url(self):

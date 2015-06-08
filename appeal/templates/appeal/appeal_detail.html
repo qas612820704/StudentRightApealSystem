@@ -2,37 +2,55 @@
 {# new file #}
 
 {% extends "appeal/base.html" %}
+{% block mystyle %}
+<style>
+div.TitleOfsrasDetail {
+  background-color: lightgrey;
+}
+</style>
+{% endblock %}
 
 {% block body %}
-<h2>{{ appeal.title }}</h2>
-<div class="ui clearing divider"></div>
-<h4>{{ appeal.context }}</h4>
-<div class="ui clearing divider"></div>
-<p> 由 {{ appeal.department }} {{ appeal.grade }} : {{ appeal.postUser_id }}
-在{{ appeal.pub_date }}所編寫</p>
-
-<!--
-<h2>process_status :</h2>
-<div>{{ appeal.process_status }}</div>
-<h2>is_public :</h2>
-<div>{{ appeal.is_public }}</div>
-<h2>is_delete :</h2>
-<div>{{ appeal.is_delete }}</div>
--->
-
-<div class="column"><h3><i class="large comments icon"></i>Comments</h3></div>
-{% for reply in appeal.apeal_reply.all %}
-<div class="ui divided list">
-  <div class="item">
-    <i class="reply icon"></i>
-    <div class="content">
-      <a class="header">{{ reply.postUser_name }} 在{{reply.pub_date}}說</a>
-      <div class="description">: {{ reply.context }} 
-	  </div></div></div></div>
-{% endfor %}
-<form class="ui form" action="{% url 'appeal:replySubmit' appeal.pk %}" method="post" role="form">
-  {% csrf_token %}
-  {{ reply_form }}
-  <input type="submit">
-</form>
+<div class="ui grid">
+  <div class="two wide column"></div>
+  <div class="twelve wide column" style="background-color: #FFFFFF;">
+    <div class="ui red segment">
+      <div class="ui vertical segment">
+        <span style="font-weigth: bold;"> 標題：</span> {{ appeal.title }} <br>
+        <span style="font-weigth: bold;"> 作者：</span> {{ appeal.postUser_id }} ( {{ appeal.department }} , {{ appeal.grade }} ) <br>
+        <span style="font-weigth: bold;"> 日期：</span> {{ appeal.pub_date }} <br>
+        <span> 日期：</span> {{ appeal.pub_date }}
+      </div>
+      <div class="ui vertical segment">
+        {{ appeal.context }}
+      </div>
+    </div>
+    {% for reply in appeal.apeal_reply.all %}
+    <div class="ui segment">
+      <p> # {{ reply.pub_date }} </p>
+      <p><b> {{ reply.postUser_name }} </b></p>
+      <p> {{ reply.context }} </p> 
+    </div>
+    {% endfor %}
+    <!--
+    <h2>process_status :</h2>
+    <div>{{ appeal.process_status }}</div>
+    <h2>is_public :</h2>
+    <div>{{ appeal.is_public }}</div>
+    <h2>is_delete :</h2>
+    <div>{{ appeal.is_delete }}</div>
+    -->
+    <h4 class="ui horizontal header divider">
+      回復
+    </h4>
+    <form class="ui form" action="{% url 'appeal:replySubmit' appeal.pk %}" method="post" role="form">
+      {% csrf_token %}
+      {{ reply_form }}
+      <input type="submit">
+    </form>
+  </div>
+  <div class="two wide column"></div>
+  </div>
+    
 {% endblock %}
+

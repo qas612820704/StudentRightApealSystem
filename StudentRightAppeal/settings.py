@@ -34,7 +34,7 @@ INSTALLED_APPS = (
     'appeal',
     'pages',
     'base',
-    'mytest',
+    # 'mytest',
     'ilt_client',
     'django.contrib.admin',
     'django.contrib.auth',

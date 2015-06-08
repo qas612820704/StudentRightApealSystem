@@ -39,7 +39,7 @@ def appealNewSubmit(request):
                   {'form': form})
 
 def appealList(request):
-    content = {}
+    process_status_SemanticUI_style = [('P', 'inverted blue comment icon'), ('D', 'inverted green comment icon'), ('N', 'inverted red comment icon')]
     try:
         appeals = Appeal.objects.all()
         content['appeals'] = appeals
