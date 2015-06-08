@@ -21,9 +21,15 @@
     <a class="item" href="{% url 'appeal:list' %}">
     <i class="user icon"></i> 文章列表
   </a>
-  <a class="item">
+  {% if request.session.user_files %}
+  <a class="item" href="{% url 'ilt_client:logout' %}">
     <i class="settings icon"></i>登出
   </a>
+  {% else %}
+  <a class="item" href="{% url 'ilt_client:run' %}">
+    <i class="settings icon"></i>login
+  </a>
+  {% endif %}
 </div>
 
 

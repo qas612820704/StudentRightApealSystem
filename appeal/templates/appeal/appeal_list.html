@@ -14,7 +14,7 @@
       </thead>
       
       <tbody>
-         {% for appeal in appeals %}
+         {% for appeal in content.appeals %}
           <tr>
             <th scope="row">{{ appeal.pk }}</th>
             <td><a href="{{ appeal.get_absolute_url }}">

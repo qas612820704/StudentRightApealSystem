@@ -2,7 +2,8 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from .form import AppealForm, ReplyForm
 from .models import Appeal, Reply
-
+from subprocess import call
+from threading import Thread
 # Create your views here.
 appeal_identity = {
     'postUser_id' : 'Lego123',
@@ -38,11 +39,22 @@ def appealNewSubmit(request):
                   {'form': form})
 
 def appealList(request):
+    content = {}
     try:
         appeals = Appeal.objects.all()
-    except:
-        pass
-    return render(request, 'appeal/appeal_list.html', {'appeals' : appeals})
+        content['appeals'] = appeals
+        if 'user_files' in request.session:
+            identity = request.session['user_files']
+            content['identity'] = identity
+        list = {}
+        list['fuck']
+    except Exception as e:
+        call(["xcowsay", repr(e)])
+        raise e
+    return render(request, 'appeal/appeal_list.html', {
+            'content' : content,
+            }
+        )
 
 def appealDetail(request, pk):
     try:
