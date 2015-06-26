@@ -1,15 +1,18 @@
+# 2015/06/22 edit by Lego
+# Change department to CharField
+#
 # 2015/05/04 edit by Lego
 # add postUser_name field to every models
-
-
+#
 # 2015/05/01 edit by Lego
 # update Appeal.__str__
 # change visiable to is_delete and
 # change type bool to datetime
 # chage integer field to char
 # not use subscribe_num, just count the model subscribe num
+#
+# 2015/04/01 Create by lego
 
-# 2015/04/01 edit by lego
 from django.db import models
 from django.core.urlresolvers import reverse # in order to use get_absolute_url
 
@@ -23,8 +26,7 @@ class Appeal(models.Model):
     
     postUser_name = models.CharField(default='', max_length=50)
 
-    department = models.CharField(max_length=2,
-                                  default = 'NA') # NA is non-defined
+    department = models.CharField(max_length=20) # NA is non-defined
     grade = models.CharField(max_length=1,
                              default = '0')
     process_status = models.CharField(max_length=1, 
@@ -44,7 +46,8 @@ class Appeal(models.Model):
     
     def get_absolute_url(self):
         return reverse('appeal:detail' ,kwargs={'pk':self.pk})
-
+    def get_absolute_admin_url(self):
+        return reverse(3)
     def __str__(self):
         return \
         'pk:{}\n'.format(self.pk) + \

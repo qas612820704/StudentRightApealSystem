@@ -1,68 +1,80 @@
-<!DOCTYPE html>
 {% extends "appeal/base.html" %}
 {% block body %}
-    {% for status, icon_style in status_style %}
-    {% endfor %}
-    <div class="ui secondary vertical menu" style="width: 20%; float: left;">
-      <a class="active item" data-tab="total"><i class="users icon"></i>Total</a>
-      <a class="item" data-tab="P"><i class="user icon"></i>Processing</a>
-      <a class="item" data-tab="D"><i class="user icon"></i>Done</a>
-      <a class="item" data-tab="N"><i class="user icon"></i>Non-Process</a>
-    </div>
-    <div class="ui bottom attached active tab segment" data-tab="total" style="width: 80%; float: right;">
-      <table class="ui table">
-        <thead>
-          <tr>
-            <th style="width: 50%;">標題</th>
-            <th style="width: 30%;">作者</th>
-            <th style="width: 20%;">發文時間</th>
-          </tr>
-        </thead>
-        <tbody> 
-          {% for appeal in appeals %}
+  {% for status, icon_style in status_style %}
+  {% endfor %}
+  <div class="ui secondary vertical menu" style="width: 20%; float: left;">
+    <a class="active item" data-tab="total"><i class="users icon"></i>Total</a>
+    <a class="item" data-tab="P"><i class="user icon"></i>Processing</a>
+    <a class="item" data-tab="D"><i class="user icon"></i>Done</a>
+    <a class="item" data-tab="N"><i class="user icon"></i>Non-Process</a>
+  </div>
+  <div class="ui bottom attached active tab segment" data-tab="total" style="width: 80%; float: right;">
+    <table class="ui table">
+      <thead>
+        <tr>
+          <th style="width: 50%;">標題</th>
+          {% if content.identity.data.isIn.FYAH %}
+          <th style="width: 20%;">作者</th>
+          <th style="width: 20%;">發文時間</th>
+          <th style="width: 10%;">Manage</th>
+          {% else %}
+          <th style="width: 30%;">作者</th>
+          <th style="width: 20%;">發文時間</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody> 
+        {% for appeal in content.appeals %}
+        <tr>
+          <td style="text-align:left;font-weight: normal;">
+          {% if appeal.process_status == 'D' %}
+            <i class="inverted green comment icon" ></i> 
+          {% elif appeal.process_status == 'P' %}
+            <i class="inverted blue comment icon" ></i>
+          {% elif appeal.process_status == 'N' %}
+            <i class="inverted red comment icon" ></i>
+          {% endif %}
+            <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</td>
+          <td>{{ appeal.postUser_id }}</td>
+          <td>{{ appeal.pub_date }}</td>
+          {% if content.identity.data.isIn.FYAH %}
+          <td>
+            <div class="ui button">
+              Edit
+            </div>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% for status, icon_style in content.status_style %}
+  <div class="ui bottom attached tab segment" data-tab="{{ status }}" style="width: 80%; float: right;">
+    <table class="ui table">
+      <thead>
+        <tr>
+          <th style="width: 50%;">標題</th>
+          <th style="width: 30%;">作者</th>
+          <th style="width: 20%;">發文時間</th>
+        </tr>
+      </thead>
+      <tbody> 
+        {% for appeal in content.appeals %}
+          {% if appeal.process_status == status %}
           <tr>
             <td style="text-align:left;font-weight: normal;">
-            {% if appeal.process_status == 'D' %}
-              <i class="inverted green comment icon" ></i> 
-            {% elif appeal.process_status == 'P' %}
-              <i class="inverted blue comment icon" ></i>
-            {% elif appeal.process_status == 'N' %}
-              <i class="inverted red comment icon" ></i>
-            {% endif %}
+              <i class="{{ icon_style }}"></i>
               <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</td>
             <td>{{ appeal.postUser_name }}</td>
             <td>{{ appeal.pub_date }}</td>
           </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% for status, icon_style in status_style %}
-    <div class="ui bottom attached tab segment" data-tab="{{ status }}" style="width: 80%; float: right;">
-      <table class="ui table">
-        <thead>
-          <tr>
-            <th style="width: 50%;">標題</th>
-            <th style="width: 30%;">作者</th>
-            <th style="width: 20%;">發文時間</th>
-          </tr>
-        </thead>
-        <tbody> 
-          {% for appeal in appeals %}
-            {% if appeal.process_status == status %}
-            <tr>
-              <td style="text-align:left;font-weight: normal;">
-                <i class="{{ icon_style }}"></i>
-                <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</td>
-              <td>{{ appeal.postUser_name }}</td>
-              <td>{{ appeal.pub_date }}</td>
-            </tr>
-            {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endfor %}
 {% endblock %}
 {% block js-end %}
 {{ block.super }}

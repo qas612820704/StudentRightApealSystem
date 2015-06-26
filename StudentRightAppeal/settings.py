@@ -54,6 +54,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+# 2015/06/07 by lego
+# in order to use session in template
+from django.conf import global_settings
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ( 'django.core.context_processors.request',
+    )
+
+
 ROOT_URLCONF = 'StudentRightAppeal.urls'
 
 WSGI_APPLICATION = 'StudentRightAppeal.wsgi.application'
