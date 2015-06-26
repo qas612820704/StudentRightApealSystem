@@ -29,9 +29,9 @@ def appealNewSubmit(request):
                 appeal.postUser_name = appeal_identity['name']
                 appeal.department = appeal_identity['department']
                 appeal.grade = appeal_identity['grade']
+                appeal.save()
             except Exception as e:
                 print (e)
-            appeal.save()
             return redirect('appeal:list')
     else:
         form = AppealForm()
@@ -40,14 +40,13 @@ def appealNewSubmit(request):
 
 def appealList(request):
     process_status_SemanticUI_style = [('P', 'inverted blue comment icon'), ('D', 'inverted green comment icon'), ('N', 'inverted red comment icon')]
+    content = {}
     try:
         appeals = Appeal.objects.all()
         content['appeals'] = appeals
-        if 'user_files' in request.session:
+        if 'user_filgs' in request.session:
             identity = request.session['user_files']
             content['identity'] = identity
-        list = {}
-        list['fuck']
     except Exception as e:
         call(["xcowsay", repr(e)])
         raise e
