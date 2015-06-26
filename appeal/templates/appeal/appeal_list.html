@@ -30,7 +30,7 @@
               <i class="inverted red comment icon" ></i>
             {% endif %}
               <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</td>
-            <td>{{ appeal.postUser_id }}</td>
+            <td>{{ appeal.postUser_name }}</td>
             <td>{{ appeal.pub_date }}</td>
           </tr>
           {% endfor %}
@@ -54,7 +54,7 @@
               <td style="text-align:left;font-weight: normal;">
                 <i class="{{ icon_style }}"></i>
                 <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</td>
-              <td>{{ appeal.postUser_id }}</td>
+              <td>{{ appeal.postUser_name }}</td>
               <td>{{ appeal.pub_date }}</td>
             </tr>
             {% endif %}
