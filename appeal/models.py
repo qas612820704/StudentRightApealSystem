@@ -1,87 +1,141 @@
+# TODO:
+#   appeal.getSubscribeNum()
+#   appeal.get_replyNum()
+#   appeal.get_backend_url()
+# DONE:
+#   appeal.get_process_status()
+# NOTE:
+#   1. username is the id of a person
+#
+# 2015/08/06 edit by Lego
+#   --BIG CHANGE OF MODEL.PY--
+#   skip the describe of change just see the source
+#
 # 2015/06/22 edit by Lego
-# Change department to CharField
+#   Change department to CharField
 #
 # 2015/05/04 edit by Lego
-# add postUser_name field to every models
+#   add postUser_name field to every models
 #
 # 2015/05/01 edit by Lego
-# update Appeal.__str__
-# change visiable to is_delete and
-# change type bool to datetime
-# chage integer field to char
-# not use subscribe_num, just count the model subscribe num
+#   update Appeal.__str__
+#   change visiable to is_delete and
+#   change type bool to datetime
+#   chage integer field to char
+#   not use subscribe_num, just count the model subscribe num
 #
 # 2015/04/01 Create by lego
 
 from django.db import models
 from django.core.urlresolvers import reverse # in order to use get_absolute_url
-
-# Create your models here.
+from .refrence import GradeChoice, DepartChoice, ProcessStatusChoice
 class Appeal(models.Model):
-    # id default by inherit
-    title = models.CharField(max_length=50)
+    username = models.CharField(
+        max_length=50,
+        default='')
+    # If the field is not empty it means the
+    # person who post the appeal is already 
+    # login to the system
+
+    name = models.CharField(
+        max_length=30,
+        default='')
+    department = models.CharField(
+        max_length=5,
+        default='',
+        choices=DepartChoice)
+    grade = models.CharField(
+        max_length=1,
+        choices=GradeChoice)
+    process_status = models.CharField(
+        max_length=1,
+        default='N',
+        choices=ProcessStatusChoice)
+
+    title = models.CharField(
+        max_length=50,
+        default='')
     context = models.TextField()
-    
-    postUser_id = models.CharField(max_length=50)
-    
-    postUser_name = models.CharField(default='', max_length=50)
 
-    department = models.CharField(max_length=20) # NA is non-defined
-    grade = models.CharField(max_length=1,
-                             default = '0')
-    process_status = models.CharField(max_length=1, 
-                                      default='N')
-    # 'N' is non-process
-    # 'P' is processing
-    # 'D' us done
 
-    # subscribe_num = models.PositiveIntegerField(default=0)
-
-    pub_date = models.DateTimeField(auto_now_add=True)
-    
-    is_public = models.BooleanField(default=True)
-
-    is_delete = models.DateTimeField(null=True, blank=True)
+    pub_date = models.DateTimeField(
+        auto_now_add=True)
+    is_public = models.BooleanField(
+        default=True)
+    is_delete = models.DateTimeField(
+        null=True, blank=True)
     # visible/nonvisible to the front-end
-    
+
     def get_absolute_url(self):
-        return reverse('appeal:detail' ,kwargs={'pk':self.pk})
+        return reverse('appeal:detail' ,
+            kwargs={'pk':self.pk})
     def get_absolute_admin_url(self):
         return reverse(3)
-    def __str__(self):
-        return \
-        'pk:{}\n'.format(self.pk) + \
-        'title:{}\n'.format(self.title) + \
-        'context:{}\n'.format(self.context) + \
-        'postUser_id:{}\n'.format(self.postUser_id) + \
-        'department:{}\n'.format(self.department) + \
-        'grade:{}\n'.format(self.grade) + \
-        'process_status:{}\n'.format(self.process_status) + \
-        'pub_date:{}\n'.format(self.pub_date) + \
-        'is_public:{}\n'.format(self.is_public) + \
-        'is_delete:{}\n'.format(self.is_delete)
+#TODO
+    def get_backend_url(self):
+        pass
+        #return reverse('', kwargs={'pk':self.pk})
+    @property
+    def process_status_str(self):
+        for data, str in ProcessStatusChoice:
+            if data is self.process_status:
+                return str
+        return ''
+    @property
+    def grade_str(self):
+        for data, str in GradeChoice:
+            if data is self.grade:
+                return str
+        return ''
+    @property
+    def department_str(self):
+        for data, str in DepartChoice:
+            if data is self.department:
+                return str
+        return ''
+#TODO 
+    def get_subscribeNum(self):
+        pass
+#TODO
+    def get_replyNum(self):
+        pass
 
-    
+    def __str__(self):
+        return self.title
+
+
 class Reply(models.Model):
+    username = models.CharField(
+        max_length=50,
+        default='')
 
-    appeal = models.ForeignKey('Appeal', related_name= 'apeal_reply', default='')
-
-    postUser_id = models.CharField(max_length=50)
-    postUser_name = models.CharField(default='',max_length=50)
-
+    name = models.CharField(
+        max_length=30,
+        default='')
     context = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField(
+        auto_now_add=True)
+
+    appeal = models.ForeignKey(
+        'Appeal',
+        related_name= 'reply', 
+        default='')
 
     def __str__(self):
-        return 'Pk:{0},title:{1}'.format(self.pk,self.title)
+        return '{} reply {}'.format(self.username,
+            self.appeal.title)
 
 # ERROR : EDIT IT
 # CHANGE IT TO SUBSCRIBE TO USER
 class Subscribe(models.Model):
-    appeal = models.ForeignKey('Appeal', related_name='appeal_subscribes')
-    subscribe_user_id = models.CharField(max_length=50)
+    appeal = models.ForeignKey(
+        'Appeal',
+         related_name='appeal_subscribes')
+    subscribe_username = models.CharField(
+        max_length=50,
+        default='')
     # chage integer field to char
     # 2015/04/01 edit by lego
     def __str__(self):
-        return 'Pk:{0},title:{1}'.format(self.pk,self.title)
-
+        return '{} subscribe {}'.format(self.subscribe_username,
+            self.appeal.title)

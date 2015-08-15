@@ -35,12 +35,14 @@
             <i class="inverted red comment icon" ></i>
           {% endif %}
             <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</td>
-          <td>{{ appeal.postUser_id }}</td>
-          <td>{{ appeal.pub_date }}</td>
+          <td>{{ appeal.name }}</td>
+          <td>{{ appeal.pub_date }}</td> 
           {% if content.identity.data.isIn.FYAH %}
           <td>
             <div class="ui button">
+            <a href="{{ appeal.get_backend_url }}">
               Edit
+            </a>
             </div>
           </td>
           {% endif %}
@@ -66,7 +68,7 @@
             <td style="text-align:left;font-weight: normal;">
               <i class="{{ icon_style }}"></i>
               <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</td>
-            <td>{{ appeal.postUser_id }}</td>
+            <td>{{ appeal.name }}</td>
             <td>{{ appeal.pub_date }}</td>
           </tr>
           {% endif %}
@@ -77,8 +79,8 @@
   {% endfor %}
 {% endblock %}
 {% block js-end %}
-{{ block.super }}
-<script>
-  $('.menu .item').tab();
-</script>
+  {{ block.super }}
+  <script>
+    $('.menu .item').tab();
+  </script>
 {% endblock %}

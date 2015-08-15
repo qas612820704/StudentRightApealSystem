@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^ilt_client/', include('ilt_client.urls', namespace='ilt_client')),
     url(r'^backend/', include('back_end.urls', namespace='back_end')),
-    # url(r'^test/', include('mytest.urls', namespace='mytest')),
+    url(r'^test/', include('mytest.urls', namespace='mytest')),
 
 )

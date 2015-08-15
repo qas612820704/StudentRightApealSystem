@@ -16,19 +16,19 @@ div.TitleOfsrasDetail {
   <div class="twelve wide column" style="background-color: #FFFFFF;">
     <div class="ui red segment">
       <div class="ui vertical segment">
-        <span style="font-weigth: bold;"> 標題：</span> {{ appeal.title }} <br>
-        <span style="font-weigth: bold;"> 作者：</span> {{ appeal.postUser_id }} ( {{ appeal.department }} , {{ appeal.grade }} ) <br>
-        <span style="font-weigth: bold;"> 日期：</span> {{ appeal.pub_date }} <br>
-        <span> 日期：</span> {{ appeal.pub_date }}
+        <span style="font-weigth: bold;"> 標題：</span> {{ content.appeal.title }} <br>
+        <span style="font-weigth: bold;"> 作者：</span> {{ content.appeal.name }} ( {{ content.appeal.department }} , {{ content.appeal.grade_str }} ) <br>
+        <span style="font-weigth: bold;"> 日期：</span> {{ content.appeal.pub_date }} <br>
+        <span> 日期：</span> {{ content.appeal.pub_date }}
       </div>
       <div class="ui vertical segment">
-        {{ appeal.context }}
+        {{ content.appeal.context }}
       </div>
     </div>
-    {% for reply in appeal.apeal_reply.all %}
+    {% for reply in content.appeal.reply.all %}
     <div class="ui segment">
       <p> # {{ reply.pub_date }} </p>
-      <p><b> {{ reply.postUser_name }} </b></p>
+      <p><b> {{ reply.name }} </b></p>
       <p> {{ reply.context }} </p> 
     </div>
     {% endfor %}
@@ -40,14 +40,16 @@ div.TitleOfsrasDetail {
     <h2>is_delete :</h2>
     <div>{{ appeal.is_delete }}</div>
     -->
+    {% if content.identity.data.isIn.FYAH %}
     <h4 class="ui horizontal header divider">
       回復
     </h4>
-    <form class="ui form" action="{% url 'appeal:replySubmit' appeal.pk %}" method="post" role="form">
+    <form class="ui form" action="{% url 'appeal:replySubmit' content.appeal.pk %}" method="post" role="form">
       {% csrf_token %}
-      {{ reply_form }}
+      {{ content.reply_form }}
       <input type="submit">
     </form>
+    {% endif %}
   </div>
   <div class="two wide column"></div>
   </div>

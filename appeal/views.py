@@ -1,40 +1,29 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from .form import AppealForm, ReplyForm
+from .form import AppealGuestForm, ReplyForm
 from .models import Appeal, Reply
 from subprocess import call
-from threading import Thread
 # Create your views here.
-appeal_identity = {
-    'postUser_id' : 'Lego123',
-    'name' : 'LegoChiang',
-    'department' : 'AM',
-    'grade' : 4,
-}
 
 def appealNew(request):
-    form = AppealForm()
+    form = AppealGuestForm()
     
     return render(request, 'appeal/appeal_new.html',
                   {'form': form})
 
 def appealNewSubmit(request):
     if request.method == 'POST':
-        form = AppealForm(request.POST)
+        form = AppealGuestForm(request.POST)
         if form.is_valid():
             try:
                 appeal_info = form.cleaned_data
                 appeal = Appeal(**appeal_info)
-                appeal.postUser_id = appeal_identity['postUser_id']
-                appeal.postUser_name = appeal_identity['name']
-                appeal.department = appeal_identity['department']
-                appeal.grade = appeal_identity['grade']
                 appeal.save()
             except Exception as e:
                 print (e)
             return redirect('appeal:list')
     else:
-        form = AppealForm()
+        form = AppealGuestForm()
     return render(request, 'appeal/appeal_new.html',
                   {'form': form})
 
@@ -44,8 +33,8 @@ def appealList(request):
     try:
         appeals = Appeal.objects.all()
         content['appeals'] = appeals
-        if 'user_filgs' in request.session:
-            identity = request.session['user_files']
+        if 'userInfo' in request.session:
+            identity = request.session['userInfo']
             content['identity'] = identity
     except Exception as e:
         call(["xcowsay", repr(e)])
@@ -56,15 +45,18 @@ def appealList(request):
         )
 
 def appealDetail(request, pk):
+    content = {}
+    if 'userInfo' in request.session:
+            identity = request.session['userInfo']
+            content['identity'] = identity
     try:
-        appeal = Appeal.objects.get(pk=pk)
+        content['appeal'] = Appeal.objects.get(pk=pk)
     except Appeal.DoesNotExist:
         raise Http404
-    reply_form = ReplyForm()
+    content['reply_form'] = ReplyForm()
 
     return render(request, 'appeal/appeal_detail.html', {
-        'appeal': appeal,
-        'reply_form' : reply_form
+        'content': content,
         })
 
 def replyNew(request, pk):
@@ -73,8 +65,8 @@ def replyNew(request, pk):
         if reply_form.is_valid():
             reply_info = reply_form.cleaned_data
             reply = Reply(**reply_info)
-            reply.postUser_id = appeal_identity['postUser_id']
-            reply.postUser_name = appeal_identity['name']
+            reply.name = request.session['userInfo']['data']['info']['first_name']
+            reply.username = request.session['userInfo']['data']['info']['username']
             try:
                 appeal = Appeal.objects.get(pk=pk)
             except Appeal.DoesNotExist:
