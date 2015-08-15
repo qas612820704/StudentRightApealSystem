@@ -39,6 +39,7 @@ def appealList(request):
     except Exception as e:
         call(["xcowsay", repr(e)])
         raise e
+    content['status_style'] = process_status_SemanticUI_style
     return render(request, 'appeal/appeal_list.html', {
             'content' : content,
             }
