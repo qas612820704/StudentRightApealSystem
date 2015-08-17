@@ -29,7 +29,7 @@ div.TitleOfsrasDetail {
     <div class="ui segment">
       <p> # {{ reply.pub_date }} </p>
       <p><b> {{ reply.name }} </b></p>
-      <p> {{ reply.context }} </p> 
+      <p> {{ reply.context|linebreaks }} </p> 
     </div>
     {% endfor %}
     <!--
