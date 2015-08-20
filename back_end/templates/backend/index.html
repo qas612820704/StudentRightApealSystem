@@ -1,0 +1,19 @@
+{% extends "base/base.html" %}
+{% block title %}
+  Account | {{ block.super }}
+{% endblock title %}
+{% block body %}
+  {% if request.user.is_authenticated %}
+    <p>
+      {{ request.user }} You had login!
+      <a href="{% url 'logout' %}">
+        Logout
+      </a>
+    </p>
+  {% else %}
+    You had not login
+    <a href="{% url 'login' %}">
+      Login
+    </a>
+  {% endif %} 
+{% endblock body %}

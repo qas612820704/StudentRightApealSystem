@@ -23,13 +23,16 @@
     <a class="item" href="{% url 'appeal:list' %}">
     <i class="user icon"></i> 文章列表
   </a>
-  {% if request.session.userInfo %}
-  <a class="item" href="{% url 'ilt_client:logout' %}">
+  {% if request.user.is_authenticated %}
+  <a class="item" href="{% url 'logout' %}">
     <i class="settings icon"></i>登出
   </a>
   {% else %}
-  <a class="item" href="{% url 'ilt_client:run' %}">
+  <a class="item" href="{% url 'login' %}">
     <i class="settings icon"></i>login
+  </a>
+  <a class="item" href="{% url 'register' %}">
+    Register
   </a>
   {% endif %}
 </div>

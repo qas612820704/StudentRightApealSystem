@@ -1,0 +1,11 @@
+{% extends "base/base.html" %}
+{% block title %}
+  Profile | {{ block.super }} 
+{% endblock title %}
+{% block body %}
+  <li> email : {{ request.user.email }}</li> 
+  <li> name : {{ request.user.name }}</li>
+  <li> nick : {{ request.user.nick }}</li>
+  <li> grade : {{ request.user.grade }}</li>
+  <li> department : {{ request.user.department }}</li>
+{% endblock body %}
