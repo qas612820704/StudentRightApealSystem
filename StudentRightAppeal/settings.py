@@ -103,4 +103,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'back_end.AppealUser'
+AUTH_USER_MODEL = 'accounts.AppealUser'

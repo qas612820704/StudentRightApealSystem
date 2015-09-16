@@ -73,7 +73,7 @@ class AppealUser(AbstractBaseUser, PermissionsMixin):
 
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = [
-    'name','nick','department','grade',
+    'name','nick','sid','department','grade',
     ]
 
   objects = AppealUserManager()

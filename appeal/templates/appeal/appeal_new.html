@@ -11,6 +11,7 @@
 <div class="ui centered grid">
 	<div class="fourteen wide column">
 		<div class="ui segment">
+			{{ form.errors }}
 			<form class="ui form" method="post" role="form">
 				{% csrf_token %}
 				<div class="two fields">

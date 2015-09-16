@@ -27,12 +27,13 @@
 # 2015/04/01 Create by lego
 
 from django.db import models
+from django.conf import settings
 from django.core.urlresolvers import reverse # in order to use get_absolute_url
+
 from base.refrence import GradeChoice, DepartChoice, ProcessStatusChoice
 class Appeal(models.Model):
-    username = models.CharField(
-        max_length=50,
-        default='')
+    username = models.ForeignKey(
+        settings.AUTH_USER_MODEL)
     # If the field is not empty it means the
     # person who post the appeal is already 
     # login to the system

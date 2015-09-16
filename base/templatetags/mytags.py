@@ -20,8 +20,6 @@ def genIcon(appeal):
 def inStatus(appeals, status):
   filter_set = []
   for appeal in appeals:
-    print('appeal.process_status',appeal.process_status)
-    print('status',status)
     if appeal.process_status == status:
       filter_set.append(appeal)
   return filter_set

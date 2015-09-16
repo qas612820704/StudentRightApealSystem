@@ -42,6 +42,7 @@ class UserChangeForm(forms.ModelForm):
     model = AppealUser
     fields = (
       'password',
+      'sid',
       'name',
       'nick',
       'department',

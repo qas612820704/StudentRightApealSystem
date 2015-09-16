@@ -14,7 +14,5 @@ urlpatterns = patterns('',
 	url(r'^appeal/', include('appeal.urls', namespace='appeal')),
 	url(r'^admin/',
 		include(admin.site.urls)),
-	url(r'^backend/',
-		include('back_end.urls', namespace='backend')),
 	url(r'^accounts/', include('accounts.urls',namespace='accounts')),
 )

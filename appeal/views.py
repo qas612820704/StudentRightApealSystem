@@ -14,12 +14,16 @@ def appealNew(request):
 			form = AppealGuestForm()
 		return render(request, 'appeal/appeal_new.html',{'form': form})
 	elif request.method == 'POST':
-		form = AppealGuestForm(request.POST)
+		if request.user.is_authenticated():
+			form = AppealAuthForm(request.POST)
+		else:
+			form = AppealGuestForm(request.POST)
 		if form.is_valid():
 			try:
 				appeal_info = form.cleaned_data
-				appeal = Appeal(**appeal_info)
-				appeal.save()
+				if request.user.is_authenticated():
+					appeal = Appeal(**appeal_info)
+					appeal.save()
 			except Exception as e:
 				print (e)
 			return redirect('appeal:list')
