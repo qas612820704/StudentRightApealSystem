@@ -28,7 +28,7 @@
 
 from django.db import models
 from django.core.urlresolvers import reverse # in order to use get_absolute_url
-from .refrence import GradeChoice, DepartChoice, ProcessStatusChoice
+from base.refrence import GradeChoice, DepartChoice, ProcessStatusChoice
 class Appeal(models.Model):
     username = models.CharField(
         max_length=50,
@@ -39,6 +39,9 @@ class Appeal(models.Model):
 
     name = models.CharField(
         max_length=30,
+        default='')
+    sid = models.CharField(
+        max_length=15,
         default='')
     department = models.CharField(
         max_length=5,

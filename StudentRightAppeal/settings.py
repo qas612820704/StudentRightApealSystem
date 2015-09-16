@@ -30,12 +30,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    # 'mainapp',
-    'appeal',
-    'pages',
     'base',
-    # 'mytest',
-    'ilt_client',
+    'pages',
+    'appeal',
+    'accounts',
     'back_end',
     'django.contrib.admin',
     'django.contrib.auth',

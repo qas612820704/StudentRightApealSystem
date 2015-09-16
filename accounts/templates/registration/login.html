@@ -1,0 +1,29 @@
+{% extends "base/base.html" %}
+{% block title %}
+  Account | {{ block.super }}
+{% endblock title %}
+{% block body %}
+<div class="ui centered grid">
+  <div class="ten wide column">
+    <div class="ui segment">
+      <form class="ui form" method="post">
+        {% csrf_token %}
+        <div class="field">
+          <label>
+            {{ form.username.label }}
+          </label>
+          {{ form.username }}  
+        </div>
+        <div class="field">
+          <label>
+            {{ form.password.label }}
+          </label>
+          {{ form.password }}  
+        </div>
+        <input type="submit" class="green fluid ui button" value="Login">
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

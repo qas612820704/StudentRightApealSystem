@@ -8,27 +8,36 @@
 # 2015/04/19 Create by lego
 
 from django import forms
-from .refrence import GradeChoice, DepartChoice
+from base.refrence import GradeChoice, DepartChoice
 class AppealGuestForm(forms.Form):
     """ For guest """
+    isAuth = False
     title = forms.CharField(
+        label='申訴標題',
     	max_length=50)
     context = forms.CharField(
-    	widget=forms.Textarea)
-    
+        label='申訴內容',
+    	widget=forms.Textarea) 
     name = forms.CharField(
+        label='名子',
     	max_length=50)
+    sid = forms.CharField(
+        label='學號',
+        max_length=15)
     department = forms.ChoiceField(
+        label='系所',
     	choices=DepartChoice)
     grade = forms.ChoiceField(
+        label='年級',
     	choices=GradeChoice)
-    
+     
     is_public = forms.BooleanField(
-    	True)
+    	label='是否願意讓此成為公開議題?')
     is_public.widget.attrs['disabled'] = True
-
+    is_public.widget.attrs['checked'] = True
 class AppealAuthForm(forms.Form):
     """ For Auth """
+    isAuth = True;
     title = forms.CharField(max_length=50)
     context = forms.CharField(widget=forms.Textarea)
     is_public = forms.BooleanField(required=False)

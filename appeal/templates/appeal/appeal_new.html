@@ -2,41 +2,53 @@
 {# rewrite code more beautiful #}
 {# 4/1 edit by k #}
 {# This the page of submit, Please use it to write submit.html #}
-
 {% extends "appeal/base.html" %}
+{% load mytags %}
 {% block title %} Appeal | {{ block.super }} {% endblock %}
 
 {% block body %}
 
-<div class="ui two column centered grid">
-	<div class="column">	
-		<form class="ui form" action="{% url 'appeal:newSubmit' %}" method="post" role="form">
-			{% csrf_token %}
-			<div class="fields">
-		    <div class="eight wide field">
-		      <label><h3>Name</h3></label>
-		      {{ form.name }}
-		    </div>
-		    <div class="six wide field">
-		      <label><h3>Department</h3></label>
-		      {{ form.department }}
-		    </div>
-		    <div class="two wide field">
-		      <label><h3>Grade</h3></label>
-		      {{ form.grade }}
-		    </div>
-		  </div>
-			<label><h3>標題</h3></label>
-			{{ form.title }}
-			<div class="ui divider"></div>
-			<label><h4>內容<h4></label>
-			{{ form.context }}
-			<label>Public or not?</label>
-			{{ form.is_public }}
-			<br>
-			<input type="submit">
-		</form>
-    </div>
+<div class="ui centered grid">
+	<div class="fourteen wide column">
+		<div class="ui segment">
+			<form class="ui form" method="post" role="form">
+				{% csrf_token %}
+				<div class="two fields">
+			    <div class="field">
+			      <h3>{{ form.name.label }}</h3>
+			      {{ form.name }}
+			    </div>
+			    <div class="field">
+			      <h3>{{ form.sid.label }}</h3>
+			      {{ form.sid }}
+			    </div>
+			    <div class="field">
+			      <h3>{{ form.department.label }}</h3>
+			      {{ form.department }}
+			    </div>
+			    <div class="field">
+			      <h3>{{ form.grade.label }}</h3>
+			      {{ form.grade }}
+			    </div>
+			  </div>
+			  <div class="field">
+					<h3>{{ form.title.label }}</h3>
+					{{ form.title }}
+				</div>
+				<div class="field">
+					<h3>{{ form.context.label }}</h3>
+					{{ form.context }}
+				</div>
+				<div class="field">
+					<div class="ui checkbox">
+						{{ form.is_public }}
+						<label style="font-size:20px;">{{ form.is_public.label }}</label>
+					</div>
+				</div>
+				<button class="fluid ui blue button" type="submit">申訴 ^.&#60;</button>
+			</form>
+		</div>
+  </div>
 </div>
 {% endblock %}
  
