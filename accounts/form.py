@@ -4,10 +4,10 @@ from accounts.models import AppealUser
 
 class UesrCreationForm(forms.ModelForm):
   password1 = forms.CharField(
-    label = 'Password',
+    label = '密碼',
     widget = forms.PasswordInput)
   password2 = forms.CharField(
-    label = 'Password Confirmation',
+    label = '密碼驗證',
     widget = forms.PasswordInput)
 
   class Meta:
@@ -41,14 +41,13 @@ class UserChangeForm(forms.ModelForm):
   class Meta:
     model = AppealUser
     fields = (
-      'password',
-      'sid',
       'name',
       'nick',
+      'sid',
       'department',
       'grade',
-      'is_active',
-      'is_admin')
+      'password'
+      )
 
   def clean_password(self):
     return self.initial['password']

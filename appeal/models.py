@@ -33,33 +33,45 @@ from django.core.urlresolvers import reverse # in order to use get_absolute_url
 from base.refrence import GradeChoice, DepartChoice, ProcessStatusChoice
 class Appeal(models.Model):
     username = models.ForeignKey(
-        settings.AUTH_USER_MODEL)
-    # If the field is not empty it means the
-    # person who post the appeal is already 
-    # login to the system
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True)
 
     name = models.CharField(
         max_length=30,
+        null=True,
+        blank=True,
         default='')
     sid = models.CharField(
         max_length=15,
+        null=True,
+        blank=True,
         default='')
     department = models.CharField(
         max_length=5,
+        null=True,
+        blank=True,
         default='',
         choices=DepartChoice)
     grade = models.CharField(
         max_length=1,
+        null=True,
+        blank=True,
+        default='',
         choices=GradeChoice)
+
     process_status = models.CharField(
+        verbose_name='申訴狀態',
         max_length=1,
         default='N',
         choices=ProcessStatusChoice)
 
     title = models.CharField(
         max_length=50,
-        default='')
-    context = models.TextField()
+        default='',
+        blank=False)
+    context = models.TextField(
+        blank=False)
 
 
     pub_date = models.DateTimeField(
@@ -67,7 +79,8 @@ class Appeal(models.Model):
     is_public = models.BooleanField(
         default=True)
     is_delete = models.DateTimeField(
-        null=True, blank=True)
+        null=True,
+        blank=True)
     # visible/nonvisible to the front-end
 
     def get_absolute_url(self):
@@ -109,13 +122,10 @@ class Appeal(models.Model):
 
 
 class Reply(models.Model):
-    username = models.CharField(
-        max_length=50,
-        default='')
-
-    name = models.CharField(
-        max_length=30,
-        default='')
+    username = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True)
     context = models.TextField()
     pub_date = models.DateTimeField(
         auto_now_add=True)

@@ -37,8 +37,17 @@
           <tr>
             <td>
               {{ appeal|genIcon }}
-              <a href="{{ appeal.get_absolute_url }}">{{ appeal.title }}</a></td>
+              {{ appeal|genPrivateTag }} 
+              <a href="{{ appeal.get_absolute_url }}">
+              {{ appeal.title }}</a>
+            </td>
+  {% if appeal.username %}
+            <td>
+              {{ appeal.username.nick }}
+            </td>          
+  {% else %}
             <td>{{ appeal.name }}</td>
+{% endif %}
             <td>{{ appeal.pub_date }}</td> 
           </tr>
 {% endfor %}

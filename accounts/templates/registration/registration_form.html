@@ -1,13 +1,35 @@
 {% extends "registration/registration_base.html" %}
+{% load mytags %}
 {% block title %}
   Regist | {{ block.super }}
 {% endblock title %}
 {% block body %}
-  <form action="">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-    </table>
-    <input type="submit" value="regist">
-  </form> 
+<div class="ui centered grid">
+  <div class="fourteen wide column">
+    <div class="ui segment">
+      <form class="ui form" action="" method="post">
+        {% csrf_token %}
+{% for field in form %}
+        <div class="field">
+          <h3>{{ field.label }}</h3>
+{% if field.label == '系所' or field.label == '年級' %}
+          {{ field|addClass:'ui dropdown' }}
+{% else %}     
+          {{ field }}
+{% endif %}
+        </div>
+{% endfor %}
+        {{ form.errors }}
+        <button class="fluid ui purple button" type="submit"> 創建帳號 ^.&#60;</button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock body %}
+
+{% block js-end %}
+{{ block.super }}
+<script>
+  $('select.dropdown').dropdown();    
+</script>
+{% endblock js-end %}

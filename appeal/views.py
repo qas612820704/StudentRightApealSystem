@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from .form import AppealGuestForm, AppealAuthForm,ReplyForm
+from .form import AppealGuestForm, AppealAuthForm,ReplyForm,AppealPowerForm
 from .models import Appeal, Reply
 from subprocess import call
 # Create your views here.
@@ -21,55 +21,66 @@ def appealNew(request):
 		if form.is_valid():
 			try:
 				appeal_info = form.cleaned_data
+				appeal = Appeal(**appeal_info)
 				if request.user.is_authenticated():
-					appeal = Appeal(**appeal_info)
-					appeal.save()
+					appeal.username = request.user
+				appeal.save()
 			except Exception as e:
 				print (e)
 			return redirect('appeal:list')
-		else:
-			form = AppealGuestForm()
-		return redirect('appeal:new')
+		return render(request, 'appeal/appeal_new.html',{'form': form})
 
 def appealList(request):
 	content = {}
-	try:
-		appeals = Appeal.objects.all()
-		content['appeals'] = appeals
-	except Exception as e:
-		raise e
+	if request.user.is_authenticated() and request.user.is_admin:
+		try:
+			appeals = Appeal.objects.order_by('-pub_date')
+			content['appeals'] = appeals
+		except Exception as e:
+			raise e
+	else:
+		try:
+			appeals = Appeal.objects.filter(is_public=True).order_by('-pub_date')
+			content['appeals'] = appeals
+		except Exception as e:
+			raise e
 	return render(request, 'appeal/appeal_list.html', {
 			'content' : content,
 			}
 		)
 
 def appealDetail(request, pk):
-	content = {}
-	if 'userInfo' in request.session:
-			identity = request.session['userInfo']
-			content['identity'] = identity
 	try:
-		content['appeal'] = Appeal.objects.get(pk=pk)
+		appeal = Appeal.objects.get(pk=pk)
 	except Appeal.DoesNotExist:
 		raise Http404
-	content['reply_form'] = ReplyForm()
+	if request.method == 'GET':
+		rForm = ReplyForm()
+		pForm = AppealPowerForm()
+		return render(request, 'appeal/appeal_detail.html', {
+			'appeal': appeal,
+			'rForm': rForm,
+			'pForm': pForm,
+			})
+	elif request.method	== 'POST':
+		pForm = AppealPowerForm(request.POST, instance=appeal)
+		if pForm.is_valid():
+			pForm.save()
+		return redirect('appeal:detail',pk)
 
-	return render(request, 'appeal/appeal_detail.html', {
-		'content': content,
-		})
 
 def replyNew(request, pk):
 	if request.method == 'POST':
-		reply_form = ReplyForm(request.POST)
-		if reply_form.is_valid():
-			reply_info = reply_form.cleaned_data
-			reply = Reply(**reply_info)
-			reply.name = request.session['userInfo']['data']['info']['first_name']
-			reply.username = request.session['userInfo']['data']['info']['username']
+		form = ReplyForm(request.POST)
+		if form.is_valid():
+			info = form.cleaned_data
+			reply = Reply(**info)
+			reply.username = request.user
 			try:
-				appeal = Appeal.objects.get(pk=pk)
+				reply.appeal = Appeal.objects.get(pk=pk)
+				reply.save()
 			except Appeal.DoesNotExist:
 				raise Http404
-			reply.appeal = appeal
-			reply.save()
 			return redirect('appeal:detail', pk=pk)
+		else:
+			raise Http404

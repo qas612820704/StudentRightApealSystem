@@ -3,9 +3,23 @@
   Profile | {{ block.super }} 
 {% endblock title %}
 {% block body %}
+<div class="ui centered grid">
+  <div class="fourteen wide column">
+    <div class="ui green segment">
+    <h1 class="ui center aligned dividing header">我的資料</h1>
+    <h4>電子信箱</h4><p>{{user.email}}</p>
+    <h4>名字</h4><p>{{user.name}}</p>
+    <h4>暱稱</h4><p>{{user.nick}}</p>
+    <h4>系所</h4><p>{{user.department_str}}</p>
+    <h4>年級</h4><p>{{user.grade_str}}</p>
+    </div>
+  </div>
+</div>
+  <!--
   <li> email : {{ request.user.email }}</li> 
   <li> name : {{ request.user.name }}</li>
   <li> nick : {{ request.user.nick }}</li>
   <li> grade : {{ request.user.grade }}</li>
   <li> department : {{ request.user.department }}</li>
+-->
 {% endblock body %}

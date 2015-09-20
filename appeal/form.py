@@ -9,9 +9,9 @@
 
 from django import forms
 from base.refrence import GradeChoice, DepartChoice
+from appeal.models import Appeal
 class AppealGuestForm(forms.Form):
     """ For guest """
-    isAuth = False
     title = forms.CharField(
         label='申訴標題',
     	max_length=50)
@@ -32,15 +32,38 @@ class AppealGuestForm(forms.Form):
     	choices=GradeChoice)
      
     is_public = forms.BooleanField(
-    	label='是否願意讓此成為公開議題?')
-    is_public.widget.attrs['disabled'] = True
+    	label='是否願意讓此成為公開議題?',
+        initial=True,
+        required=False)
     is_public.widget.attrs['checked'] = True
+
 class AppealAuthForm(forms.Form):
     """ For Auth """
-    isAuth = True;
-    title = forms.CharField(max_length=50)
-    context = forms.CharField(widget=forms.Textarea)
-    is_public = forms.BooleanField(required=False)
-
+    title = forms.CharField(
+        label='申訴標題',
+        max_length=50)
+    context = forms.CharField(
+        label='申訴內容',
+        widget=forms.Textarea)
+    is_public = forms.BooleanField(
+        label='是否願意讓此成為公開議題?',
+        initial=True,
+        required=False)
+    is_public.widget.attrs['checked'] = True
+ 
 class ReplyForm(forms.Form):
-	context = forms.CharField()
+	context = forms.CharField(
+        label='回覆',
+        widget=forms.Textarea(
+            attrs={
+                'rows':2,
+                })
+        )
+
+class AppealPowerForm(forms.ModelForm):
+    class Meta:
+        model = Appeal
+        fields = (
+            'process_status',
+            )
+

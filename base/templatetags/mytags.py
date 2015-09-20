@@ -16,6 +16,20 @@ def genIcon(appeal):
               color[1], icon))
   raise StatusNotFoundError('Your status of this appeal "{}" is not found'.format(appeal.process_status))
 
+@register.filter(name='genPrivateTag')
+def genPrivateTag(appeal):
+  for color in psc:
+    if not appeal.is_public:
+      return mark_safe('<div class="ui label">私</div>')
+  return ''
+
+@register.filter(name='genColor')
+def genColor(appeal):
+  for color in psc:
+    if color[0] is appeal.process_status:
+      return color[1]
+  raise StatusNotFoundError('Your status of this appeal "{}" is not found'.format(appeal.process_status))
+
 @register.filter(name='inStatus')
 def inStatus(appeals, status):
   filter_set = []

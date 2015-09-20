@@ -1,58 +1,98 @@
-{# 5/3 edit by lego#}
-{# new file #}
-
 {% extends "appeal/base.html" %}
-{% block mystyle %}
-<style>
-div.TitleOfsrasDetail {
-  background-color: lightgrey;
-}
-</style>
-{% endblock %}
-
+{% load mytags %}
 {% block body %}
-<div class="ui grid">
-  <div class="two wide column"></div>
-  <div class="twelve wide column" style="background-color: #FFFFFF;">
-    <div class="ui red segment">
+<div class="ui centered grid">
+  <div class="fourteen wide column">
+{% if appeal.process_status == 'N' %}
+  
+{% endif %}
+    <div class="ui {{appeal|genColor}} segment">
       <div class="ui vertical segment">
-        <span style="font-weigth: bold;"> 標題：</span> {{ content.appeal.title }} <br>
-        <span style="font-weigth: bold;"> 作者：</span> {{ content.appeal.name }} ( {{ content.appeal.department }} , {{ content.appeal.grade_str }} ) <br>
-        <span style="font-weigth: bold;"> 日期：</span> {{ content.appeal.pub_date }} <br>
-        <span> 日期：</span> {{ content.appeal.pub_date }}
+        <p>
+          <b>標題：</b>
+          {{ appeal.title }}   
+        </p>
+        <p>
+          <b>作者：</b> 
+{% if appeal.username %}
+          {{ appeal.username.name }}
+          ({{ appeal.username.nick }})
+          {{ appeal.username.department_str }}
+            {{ appeal.username.grade_str }}
+{% else %}
+          {{ appeal.name }}
+          ( {{ appeal.department_str }} , 
+            {{ appeal.grade_str }} )
+{% endif %}    
+        </p>
+        <p>
+          <b>日期：</b>
+          {{ appeal.pub_date }}
+        </p>
       </div>
       <div class="ui vertical segment">
-        {{ content.appeal.context }}
+        {{ appeal.context }}
       </div>
     </div>
-    {% for reply in content.appeal.reply.all %}
-    <div class="ui segment">
-      <p> # {{ reply.pub_date }} </p>
-      <p><b> {{ reply.name }} </b></p>
-      <p> {{ reply.context|linebreaks }} </p> 
-    </div>
-    {% endfor %}
-    <!--
-    <h2>process_status :</h2>
-    <div>{{ appeal.process_status }}</div>
-    <h2>is_public :</h2>
-    <div>{{ appeal.is_public }}</div>
-    <h2>is_delete :</h2>
-    <div>{{ appeal.is_delete }}</div>
-    -->
-    {% if content.identity.data.isIn.FYAH %}
+{% if request.user.is_admin %}
     <h4 class="ui horizontal header divider">
-      回復
+       學權編輯區
     </h4>
-    <form class="ui form" action="{% url 'appeal:replySubmit' content.appeal.pk %}" method="post" role="form">
+    <div class="ui segment">
+      <form class="ui form" method="post">
       {% csrf_token %}
-      {{ content.reply_form }}
-      <input type="submit">
+        <div class="field">
+          {{ pForm.process_status|addClass:'ui dropdown' }}
+        </div>
+        </table>
+        <button class="fluid ui purple button" type="submit">更變狀態</button>
+      </form>
+    </div> 
+{% endif %}
+    <h4 class="ui horizontal header divider">
+      回覆
+    </h4>
+{% if not appeal.reply.all %}
+    <div class="ui warning message">
+      <div class="header">
+        本申訴目前尚無回復喔!
+      </div>
+      登入成為第一個回覆的吧
+    </div>
+{% endif %}
+{% for reply in appeal.reply.all %}
+    <div class="ui segment">
+      <p>
+        <b>作者：
+          {{ reply.username.name }}
+          ({{ reply.username.nick }})
+        </b>
+      </p>
+      <p> {{ reply.context|linebreaks }} </p>
+      <p style="text-align: right;"> # {{ reply.pub_date }} </p> 
+    </div>
+{% endfor %}
+{% if request.user.is_authenticated %}
+    <h4 class="ui horizontal header divider">
+      我要發言
+    </h4>
+    <form class="ui form" action="{% url 'appeal:replySubmit' appeal.pk %}" method="post" role="form">
+      {% csrf_token %}
+      <div class="field">
+        {{ rForm.context }}
+      </div>
+      <button class="fluid ui orange button" type="submit">回覆 ^.&#60;</button>
     </form>
-    {% endif %}
+{% endif %}
+
   </div>
-  <div class="two wide column"></div>
-  </div>
+</div>
     
 {% endblock %}
 
+{% block js-end %}
+{{ block.super }}
+<script>
+  $('select.dropdown').dropdown();    
+</script>
+{% endblock js-end %}

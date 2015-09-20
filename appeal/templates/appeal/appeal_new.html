@@ -14,6 +14,7 @@
 			{{ form.errors }}
 			<form class="ui form" method="post" role="form">
 				{% csrf_token %}
+{% if not request.user.is_authenticated %}
 				<div class="two fields">
 			    <div class="field">
 			      <h3>{{ form.name.label }}</h3>
@@ -25,13 +26,14 @@
 			    </div>
 			    <div class="field">
 			      <h3>{{ form.department.label }}</h3>
-			      {{ form.department }}
+			      {{ form.department|addClass:'ui dropdown' }}
 			    </div>
 			    <div class="field">
 			      <h3>{{ form.grade.label }}</h3>
-			      {{ form.grade }}
+			      {{ form.grade|addClass:'ui dropdown' }}
 			    </div>
 			  </div>
+{% endif %}
 			  <div class="field">
 					<h3>{{ form.title.label }}</h3>
 					{{ form.title }}
@@ -40,7 +42,11 @@
 					<h3>{{ form.context.label }}</h3>
 					{{ form.context }}
 				</div>
+{% if not request.user.is_authenticated %}
+				<div class="disabled field">
+{% else %}
 				<div class="field">
+{% endif %}
 					<div class="ui checkbox">
 						{{ form.is_public }}
 						<label style="font-size:20px;">{{ form.is_public.label }}</label>
@@ -52,4 +58,9 @@
   </div>
 </div>
 {% endblock %}
- 
+{% block js-end %}
+{{ block.super }}
+<script>
+	$('select.dropdown').dropdown();		
+</script>
+{% endblock js-end %}

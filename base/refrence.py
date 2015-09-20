@@ -55,9 +55,9 @@ DepartChoice = (
 
 
 ProcessStatusChoice = (
-    ('N', 'Non precess'),
-    ('P', 'Processing'),
-    ('D', 'Done prcess')
+    ('N', '尚未進行的申訴'),
+    ('P', '進行中的申訴'),
+    ('D', '以完成的申訴')
 )
 
 ProcessStatusColor = (

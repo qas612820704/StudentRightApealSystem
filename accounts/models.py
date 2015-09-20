@@ -45,23 +45,34 @@ class AppealUserManager(BaseUserManager):
 
 class AppealUser(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField(
-    verbose_name = 'email address',
+    verbose_name = '電子信箱',
     max_length = 255,
-    unique=True)  
+    unique=True,
+    blank=False)  
 
   name = models.CharField(
-    max_length = 30)  
-  nick = models.CharField(
-    max_length = 30)
-  sid = models.CharField(
+    verbose_name = '名字',
     max_length = 30,
-    default='')
+    blank=False)  
+  nick = models.CharField(
+    verbose_name = '暱稱', 
+    max_length = 30,
+    blank=False)
+  sid = models.CharField(
+    verbose_name = '學號',
+    max_length = 30,
+    default='',
+    blank=False)
   department = models.CharField(
+    verbose_name = '系所',
     max_length = 5,
     default = '',
+    blank=False,
     choices=DepartChoice)
   grade = models.CharField(
+    verbose_name = '年級',
     max_length = 1,
+    blank=False,
     choices=GradeChoice)
 
   date_of_birth = models.DateTimeField(
@@ -82,7 +93,7 @@ class AppealUser(AbstractBaseUser, PermissionsMixin):
     return self.email
   def get_short_name(self):
     return self.email.split('@')[0]
-  
+
   def has_perm(self, perm, obj=None):
     return True
 
@@ -92,3 +103,18 @@ class AppealUser(AbstractBaseUser, PermissionsMixin):
   @property
   def is_staff(self):
     return self.is_admin
+
+  @property
+  def grade_str(self):
+    for data, str in GradeChoice:
+      if data == self.grade:
+        return str
+    return ''
+
+  @property
+  def department_str(self):
+    print(self.department)
+    for data, str in DepartChoice:
+      if data == self.department:
+        return str
+    return ''
